@@ -8,11 +8,52 @@ body{
     padding: 0;
 }
 
-body{
-    background-color: red;
+
+/* Note  */
+/* rem is based on the font size of the root element, providing a consistent size relative to the base font size. 
+It's commonly used for responsive typography and layout.
+vh is based on the viewport height, providing a size relative to the height of the browser window. 
+It's often used for creating full-screen sections or elements that should scale with the height of the viewport. */
+/* An element that has display: flex or display: inline-flex applied to it. This container uses the Flexbox layout 
+model to control the layout of its child elements (flex items). */
+/* display flex will keep the child elements in flex-direction which is row by default. */
+.page-actions-cont{
+    height: 3rem;
+    background-color:#218c74;
+    display: flex;
+    align-items: flex-end;
 }
 
-p{
-    color:blue
+/* justify-content: Aligns flex items along the main axis. Values include  flex-start, flex-end, center, space-between, space-around, and space-evenl*/
+/* Aligns flex items along the cross axis. Values include stretch, flex-start, flex-end, center, and baseline. */
+.page-actions{
+    margin: 0.5rem;
+    color: #f1f2f6;
+}
+
+.cellprop-actions-cont{
+    height: 3rem;
+    background-color: beige;
+    display: flex;
+    align-items: center;
+}
+
+.cellprop-actions-cont > *{
+    margin: 0.30rem;
+}
+
+.formula-actions-cont{
+    height: 3rem;
+    background-color: lightblue ;
+}
+
+.sheet-actions-cont{
+    height: 3rem;
+    background-color: gray;
+}
+
+.grid-actions-cont{
+    height: calc( 100vh - 3rem - 3rem - 3rem - 3rem );
+    background-color: white;
 }
 
