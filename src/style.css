@@ -34,7 +34,7 @@ model to control the layout of its child elements (flex items). */
 
 .cellprop-actions-cont{
     height: 3rem;
-    background-color: beige;
+    background-color: #ecf0f1;
     display: flex;
     align-items: center;
     padding-left: 1rem;
@@ -60,10 +60,37 @@ model to control the layout of its child elements (flex items). */
 }
 
 .formula-actions-cont{
-    height: 3rem;
-    background-color: lightblue ;
+    height: 2rem;
+    background-color: #ecf0f1;
     padding-left: 1rem;
+    display: flex;
+    align-items: center;
 }
+
+.formula-actions-cont > * {
+    display: inline-block;
+    margin-right: 0.8rem;
+}
+
+.formula-actions-cont > input{
+    outline: none;
+    border: none;
+    height: 70%;
+}
+
+.address-bar {
+    width: 5rem;
+}
+
+.formula-icon{
+    width: 1.5rem;
+    height: 70%;
+}
+
+.formula-bar{
+    width: calc(100vw - 1rem - 0.8rem - 0.8rem - 0.8rem - 5rem - 1.5rem );
+}
+
 
 .sheet-actions-cont{
     height: 3rem;
@@ -89,10 +116,55 @@ model to control the layout of its child elements (flex items). */
 .sheet-folder{
     font-weight: bold;
     text-decoration: underline;
-    text-decoration-thickness: 3px;
-}
-.grid-actions-cont{
-    height: calc( 100vh - 3rem - 3rem - 3rem - 3rem );
-    background-color: white;
+    text-decoration-thickness: 2px;
+    margin-bottom: 2px;
 }
 
+.grid-actions-cont{
+    height: calc( 100vh - 3rem - 3rem - 2rem - 3rem );
+    background-color: #ecf0f1;
+    position: relative;
+    overflow: scroll;
+}
+
+.top-left-dummy-box{
+    height: 2rem;
+    width: 2rem;
+    background-color: #747d8c;
+}
+
+.address-col-cont{
+    height: 2rem;
+    width: 2rem;
+}
+
+.address-row-cont{
+    display: flex;
+    align-items: center;
+}
+
+.cells-cont{
+    position: absolute;
+    top: 0rem;
+    left: 2rem;
+    height: 10rem;
+
+}
+
+.address-col{
+    height: 2rem;
+    width: 2rem;
+    border: 1px solid #dfe4ea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.address-row{
+    height: 2rem;
+    width: 5rem;
+    border: 1px solid #dfe4ea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
