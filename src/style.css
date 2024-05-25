@@ -22,6 +22,7 @@ model to control the layout of its child elements (flex items). */
     background-color:#218c74;
     display: flex;
     align-items: flex-end;
+    padding-left: 1rem;
 }
 
 /* justify-content: Aligns flex items along the main axis. Values include  flex-start, flex-end, center, space-between, space-around, and space-evenl*/
@@ -36,22 +37,60 @@ model to control the layout of its child elements (flex items). */
     background-color: beige;
     display: flex;
     align-items: center;
+    padding-left: 1rem;
 }
 
 .cellprop-actions-cont > *{
-    margin: 0.30rem;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.cellprop-actions-cont > select{
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+
+.font-family-prop{
+    padding : 0.2rem;
+}
+
+.font-size-prop{
+    padding: 0.2rem;
 }
 
 .formula-actions-cont{
     height: 3rem;
     background-color: lightblue ;
+    padding-left: 1rem;
 }
 
 .sheet-actions-cont{
     height: 3rem;
     background-color: gray;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 1rem;
 }
 
+.sheet-add-icon{
+    width: 2vw;
+}
+
+.sheets-folder-cont{
+    display: flex;
+    align-items: center;
+    height: 80%;
+    width: calc(100rem - 2vw);
+}
+
+.sheet-folder{
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+}
 .grid-actions-cont{
     height: calc( 100vh - 3rem - 3rem - 3rem - 3rem );
     background-color: white;
