@@ -33,6 +33,11 @@ for(let i=0;i<rows;i++){
         let cell = document.createElement("div");
         cell.setAttribute("class","cell");
         cell.setAttribute("contenteditable",true);
+
+        //for making a connection between row and col of cell and that will be used for binding with the cell props.
+        cell.setAttribute("rid",i);
+        cell.setAttribute("cid",j);
+        cell.setAttribute("spellcheck",false);
         addListenerForAddressBar(cell,i,j);
         rowCont.appendChild(cell);
     }
@@ -46,3 +51,10 @@ function addListenerForAddressBar(cell,i,j){
         addressBar.value = `${rowId}${colId}`;
     })
 }
+
+// by default click the first row and col [0,0]. So all cells have cell class. 
+// document.querySelector() will give the first one that matches . that will be [0,0].
+// so use this to click that by default
+let firstCell = document.querySelector(".cell");
+firstCell.click();
+
