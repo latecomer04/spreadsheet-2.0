@@ -45,6 +45,10 @@ model to control the layout of its child elements (flex items). */
   margin-right: 0.5rem;
 }
 
+.cellprop-actions-cont > *:hover{
+  cursor: pointer;
+}
+
 .cellprop-actions-cont > select {
   border-radius: 5px;
   border: none;
@@ -81,6 +85,7 @@ model to control the layout of its child elements (flex items). */
 .address-bar {
   width: 5rem;
   text-align: center;
+  
 }
 
 .formula-icon {
@@ -194,4 +199,8 @@ model to control the layout of its child elements (flex items). */
   opacity: 0;
   height: 100%;
   width: 100%;
+}
+
+.color-prop > *:hover{
+  cursor: pointer;
 }

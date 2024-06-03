@@ -43,9 +43,10 @@ let activeColorProp = "#d1d8e0";
 let inactiveColorProp = "#ecf0f1";
 
 
-//attach property listeners.
+// ----------------------------------attach property listeners-----------------------------------------
 
-bold.addEventListener("click",(e)=>{
+// for bold
+bold.addEventListener("click",()=>{
     let addressValue = addressBar.value;
     let [cell,cellProp]  = findActiveCell(addressValue);
 
@@ -55,13 +56,66 @@ bold.addEventListener("click",(e)=>{
     bold.style.backgroundColor = cellProp.bold?activeColorProp:inactiveColorProp;  //make bold icon active or inactive.
 })
 
+// for italic
+italic.addEventListener("click",()=>{
+    let addressValue = addressBar.value;
+    let [cell,cellProp] = findActiveCell(addressValue);
+
+    // modification
+    cellProp.italic = !cellProp.italic;     // data change in DB
+    cell.style.fontStyle = cellProp.italic?"italic":"normal";       // make change in UI
+    italic.style.backgroundColor = cellProp.italic ? activeColorProp : inactiveColorProp;   // make change in UI
+})
+
+// for underline
+underline.addEventListener("click",() =>{
+
+    let [cell,cellProp] = findActiveCell(addressBar.value);
+    cellProp.underline = !cellProp.underline;       // data change in DB
+    cell.style.textDecoration = cellProp.underline? "underline":"none";     // change on UI
+    underline.style.backgroundColor = cellProp.underline? activeColorProp:inactiveColorProp;    // make change in UI
+})
+
+// for fontSize
+fontSize.addEventListener("change",()=>{
+    let [cell,cellProp] = findActiveCell(addressBar.value);
+    cellProp.fontSize = fontSize.value + "px";    // data change
+    cell.style.fontSize = cellProp.fontSize;        // change on UI
+})
+
+// for fontFamily  -> on input tags we use "change" rather than "click"
+fontFamily.addEventListener("change",()=>{
+    let [cell,cellProp] = findActiveCell(addressBar.value);
+    cellProp.fontFamily = fontFamily.value;     // data change in db
+    cell.style.fontFamily = cellProp.fontFamily;    // change on UI
+    fontFamily.value = cellProp.fontFamily;
+})
+
+// for fontColor -> on input tags , "change" is used not "click"
+fontColor.addEventListener("change",()=>{
+    let [cell,cellProp] = findActiveCell(addressBar.value);
+    cellProp.fontColor = fontColor.value;       // make change in db
+    cell.style.color = cellProp.fontColor;      // change on UI
+    fontColor.value = cellProp.fontColor;
+})
+
+// for background color.
+bgColor.addEventListener("change",() =>{
+    let [cell,cellProp] = findActiveCell(addressBar.value);
+    cellProp.BGcolor = bgColor.value;       // data change
+    cell.style.backgroundColor = cellProp.BGcolor;  // change on UI
+    bgColor.value = cellProp.BGcolor;
+})
+
 // find active cell
 function findActiveCell(address){
 
     // address will be in the form of row - col
     [rowId,colId] = decodeRowAndColFromAddress(address);
-    // find cell
+
+    // find cell using selectors
     let cell = document.querySelector(`.cell[rid="${rowId}"][cid="${colId}"]`);
+    // find cell prop for the cell from sheet DB.
     let cellProp = sheetDB[rowId][colId];
 
     //cell will be used to make changes on UI and cellprop for data about that cell.
@@ -75,3 +129,4 @@ function decodeRowAndColFromAddress(address){
     let colId = Number(address.charCodeAt(address.length-1))-65;
     return [rowId,colId]; 
 }
+
