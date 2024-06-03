@@ -1,0 +1,206 @@
+/* In CSS, the box-sizing property is used to alter the default CSS box model used to calculate widths and heights of elements.  */
+/* box-sizing: border-box ---> The width and height properties include the content, padding, and border, but not the margin.*/
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Note  */
+/* rem is based on the font size of the root element, providing a consistent size relative to the base font size. 
+It's commonly used for responsive typography and layout.
+vh is based on the viewport height, providing a size relative to the height of the browser window. 
+It's often used for creating full-screen sections or elements that should scale with the height of the viewport. */
+/* An element that has display: flex or display: inline-flex applied to it. This container uses the Flexbox layout 
+model to control the layout of its child elements (flex items). */
+/* display flex will keep the child elements in flex-direction which is row by default. */
+.page-actions-cont {
+  height: 3rem;
+  background-color: #218c74;
+  display: flex;
+  align-items: flex-end;
+  padding-left: 1rem;
+}
+
+/* justify-content: Aligns flex items along the main axis. Values include  flex-start, flex-end, center, space-between, space-around, and space-evenl*/
+/* Aligns flex items along the cross axis. Values include stretch, flex-start, flex-end, center, and baseline. */
+.page-actions {
+  margin: 0.5rem;
+  color: #f1f2f6;
+}
+
+.cellprop-actions-cont {
+  height: 3rem;
+  background-color: #ecf0f1;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.cellprop-actions-cont > * {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.cellprop-actions-cont > *:hover{
+  cursor: pointer;
+}
+
+.cellprop-actions-cont > select {
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+.font-family-prop {
+  padding: 0.2rem;
+}
+
+.font-size-prop {
+  padding: 0.2rem;
+}
+
+.formula-actions-cont {
+  height: 2rem;
+  background-color: #ecf0f1;
+  padding-left: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.formula-actions-cont > * {
+  display: inline-block;
+  margin-right: 0.8rem;
+}
+
+.formula-actions-cont > input {
+  outline: none;
+  border: none;
+  height: 70%;
+}
+
+.address-bar {
+  width: 5rem;
+  text-align: center;
+  
+}
+
+.formula-icon {
+  width: 1.5rem;
+  height: 70%;
+}
+
+.formula-bar {
+  width: calc(100vw - 1rem - 0.8rem - 0.8rem - 0.8rem - 5rem - 1.5rem);
+}
+
+.sheet-actions-cont {
+  height: 3rem;
+  background-color: gray;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  gap: 1rem;
+}
+
+.sheet-add-icon {
+  width: 2vw;
+}
+
+.sheets-folder-cont {
+  display: flex;
+  align-items: center;
+  height: 80%;
+  width: calc(100rem - 2vw);
+}
+
+.sheet-folder {
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  margin-bottom: 2px;
+}
+
+.grid-actions-cont {
+  height: calc(100vh - 3rem - 3rem - 2rem - 3rem);
+  background-color: #ecf0f1;
+  position: relative;
+  overflow: scroll;
+}
+
+.top-left-dummy-box {
+  height: 2rem;
+  width: 2rem;
+  background-color: #747d8c;
+  position: fixed;
+  z-index: 5;
+}
+
+.address-col-cont {
+  position: sticky;
+  left: 0rem;
+  top: 2rem;
+}
+
+.address-row-cont {
+  display: flex;
+  position: sticky;
+  top: 0;
+  left: 2rem;
+}
+
+.cells-cont {
+  position: absolute;
+  top: 0rem;
+  left: 2rem;
+}
+
+.address-col {
+  height: 2rem;
+  width: 2rem;
+  border: 1px solid #dfe4ea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.address-row {
+  height: 2rem;
+  width: 5rem;
+  border: 1px solid #dfe4ea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row-cont {
+  display: flex;
+}
+
+.cell {
+  height: 2rem;
+  width: 5rem;
+  border: 1px solid #dfe4ea;
+  outline: none;
+}
+
+.color-prop {
+  position: relative;
+}
+
+.color-prop > input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.color-prop > *:hover{
+  cursor: pointer;
+}
