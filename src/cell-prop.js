@@ -79,8 +79,9 @@ underline.addEventListener("click",() =>{
 // for fontSize
 fontSize.addEventListener("change",()=>{
     let [cell,cellProp] = findActiveCell(addressBar.value);
-    cellProp.fontSize = fontSize.value + "px";    // data change
-    cell.style.fontSize = cellProp.fontSize;        // change on UI
+    cellProp.fontSize = fontSize.value;    // data change
+    cell.style.fontSize = cellProp.fontSize+"px";        // change on UI
+    fontSize.value = cellProp.fontSize;
 })
 
 // for fontFamily  -> on input tags we use "change" rather than "click"
@@ -106,6 +107,86 @@ bgColor.addEventListener("change",() =>{
     cell.style.backgroundColor = cellProp.BGcolor;  // change on UI
     bgColor.value = cellProp.BGcolor;
 })
+
+
+// for alignment;
+alignment.forEach((alignElement)=>{
+    alignElement.addEventListener("click",(e)=>{
+        let alignValue = e.target.classList[0];
+        let [cell,cellProp] = findActiveCell(addressBar.value);
+        cellProp.alignment = alignValue;        // change in Data;
+        cell.style.textAlign = cellProp.alignment;      // UI change(1);
+
+        switch (alignValue) {       // UI change(2) for changing background color of active prop.
+            case "left":
+                leftAlign.style.backgroundColor = activeColorProp;
+                centreAlign.style.backgroundColor = inactiveColorProp;
+                rightAlign.style.backgroundColor = inactiveColorProp;
+                break;
+            case "center":
+                leftAlign.style.backgroundColor = inactiveColorProp;
+                centreAlign.style.backgroundColor = activeColorProp;
+                rightAlign.style.backgroundColor = inactiveColorProp;
+                break;
+            case "right":
+                leftAlign.style.backgroundColor = inactiveColorProp;
+                centreAlign.style.backgroundColor = inactiveColorProp;
+                rightAlign.style.backgroundColor = activeColorProp;
+                break;
+        }
+    })
+})
+
+// re-bind properties of cell when you click on any cell.
+let allCells = document.querySelectorAll(".cell");
+allCells.forEach((currCell)=>{
+    addListenerToAttachCellProperties(currCell);
+})
+
+function addListenerToAttachCellProperties(cell) {
+    
+    cell.addEventListener("click",()=>{
+        let [rid,cid] = decodeRowAndColFromAddress(addressBar.value);
+        currCellProp = sheetDB[rid][cid];
+        
+        // so we have now the prop for the currCell in currCellProp , now make changes for the cell.
+        cell.style.fontWeight = currCellProp.bold?"bold":"normal";
+        cell.style.fontStyle = currCellProp.italic?"italic":"normal";
+        cell.style.textDecoration = currCellProp.underline?"underline":"none";
+        cell.style.fontFamily = currCellProp.fontFamily;
+        cell.style.fontSize = currCellProp.fontSize+"px";
+        cell.style.fontColor = currCellProp.fontColor;
+        cell.style.backgroundColor = currCellProp.BGcolor==="#000000"?"transparent":currCellProp.BGcolor;
+        cell.style.alignElement = currCellProp.alignment;
+
+        // here we are making changes to props icon. like bold, italics, underline etc.
+        // alignment.
+        switch (currCellProp.alignment){
+            case "left":
+                leftAlign.style.backgroundColor=activeColorProp;
+                centreAlign.style.backgroundColor =inactiveColorProp;
+                rightAlign.style.backgroundColor = inactiveColorProp;
+                break;
+            case "center":
+                leftAlign.style.backgroundColor = inactiveColorProp;
+                centreAlign.style.backgroundColor = activeColorProp;
+                rightAlign.style.backgroundColor = inactiveColorProp;
+                break;
+            case "right":
+                leftAlign.style.backgroundColor = inactiveColorProp;
+                centreAlign.style.backgroundColor = inactiveColorProp;
+                rightAlign.style.backgroundColor = activeColorProp;
+                break;
+        }
+        fontFamily.value = currCellProp.fontFamily;     // fontFamily
+        fontSize.value = currCellProp.fontSize;     //fontSize
+        bold.style.backgroundColor = currCellProp.bold? activeColorProp:inactiveColorProp;      //bold
+        italic.style.backgroundColor = currCellProp.italic? activeColorProp:inactiveColorProp;
+        underline.style.backgroundColor = currCellProp.underline? activeColorProp:inactiveColorProp;
+        fontColor.value = currCellProp.fontColor;
+        bgColor.value = currCellProp.BGcolor;
+    })
+}
 
 // find active cell
 function findActiveCell(address){
