@@ -18,7 +18,9 @@ for(let i=0;i<rows;i++){
             fontFamily: "monospace",
             fontSize : "14",
             fontColor: "#000000",
-            BGcolor: "#000000"      // just for indication.
+            BGcolor: "#000000",     // just for indication.
+            value : "",
+            formula : ""
         }
         sheetRow.push(cellProp);
     }
@@ -38,6 +40,7 @@ let fontFamily = document.querySelector(".font-family-prop");
 let fontSize =  document.querySelector(".font-size-prop");
 let fontColor  = document.querySelector(".font-color-prop");
 let bgColor = document.querySelector(".bg-color-prop");
+let formulaBar = document.querySelector(".formula-bar");
 
 let activeColorProp = "#d1d8e0";
 let inactiveColorProp = "#ecf0f1";
@@ -48,7 +51,7 @@ let inactiveColorProp = "#ecf0f1";
 // for bold
 bold.addEventListener("click",()=>{
     let addressValue = addressBar.value;
-    let [cell,cellProp]  = findActiveCell(addressValue);
+    let [cell,cellProp]  = getCellAndCellProp(addressValue);
 
     //modification 
     cellProp.bold = !cellProp.bold;  //data change
@@ -59,7 +62,7 @@ bold.addEventListener("click",()=>{
 // for italic
 italic.addEventListener("click",()=>{
     let addressValue = addressBar.value;
-    let [cell,cellProp] = findActiveCell(addressValue);
+    let [cell,cellProp] = getCellAndCellProp(addressValue);
 
     // modification
     cellProp.italic = !cellProp.italic;     // data change in DB
@@ -70,7 +73,7 @@ italic.addEventListener("click",()=>{
 // for underline
 underline.addEventListener("click",() =>{
 
-    let [cell,cellProp] = findActiveCell(addressBar.value);
+    let [cell,cellProp] = getCellAndCellProp(addressBar.value);
     cellProp.underline = !cellProp.underline;       // data change in DB
     cell.style.textDecoration = cellProp.underline? "underline":"none";     // change on UI
     underline.style.backgroundColor = cellProp.underline? activeColorProp:inactiveColorProp;    // make change in UI
@@ -78,7 +81,7 @@ underline.addEventListener("click",() =>{
 
 // for fontSize
 fontSize.addEventListener("change",()=>{
-    let [cell,cellProp] = findActiveCell(addressBar.value);
+    let [cell,cellProp] = getCellAndCellProp(addressBar.value);
     cellProp.fontSize = fontSize.value;    // data change
     cell.style.fontSize = cellProp.fontSize+"px";        // change on UI
     fontSize.value = cellProp.fontSize;
@@ -86,7 +89,7 @@ fontSize.addEventListener("change",()=>{
 
 // for fontFamily  -> on input tags we use "change" rather than "click"
 fontFamily.addEventListener("change",()=>{
-    let [cell,cellProp] = findActiveCell(addressBar.value);
+    let [cell,cellProp] = getCellAndCellProp(addressBar.value);
     cellProp.fontFamily = fontFamily.value;     // data change in db
     cell.style.fontFamily = cellProp.fontFamily;    // change on UI
     fontFamily.value = cellProp.fontFamily;
@@ -94,7 +97,7 @@ fontFamily.addEventListener("change",()=>{
 
 // for fontColor -> on input tags , "change" is used not "click"
 fontColor.addEventListener("change",()=>{
-    let [cell,cellProp] = findActiveCell(addressBar.value);
+    let [cell,cellProp] = getCellAndCellProp(addressBar.value);
     cellProp.fontColor = fontColor.value;       // make change in db
     cell.style.color = cellProp.fontColor;      // change on UI
     fontColor.value = cellProp.fontColor;
@@ -102,7 +105,7 @@ fontColor.addEventListener("change",()=>{
 
 // for background color.
 bgColor.addEventListener("change",() =>{
-    let [cell,cellProp] = findActiveCell(addressBar.value);
+    let [cell,cellProp] = getCellAndCellProp(addressBar.value);
     cellProp.BGcolor = bgColor.value;       // data change
     cell.style.backgroundColor = cellProp.BGcolor;  // change on UI
     bgColor.value = cellProp.BGcolor;
@@ -113,7 +116,7 @@ bgColor.addEventListener("change",() =>{
 alignment.forEach((alignElement)=>{
     alignElement.addEventListener("click",(e)=>{
         let alignValue = e.target.classList[0];
-        let [cell,cellProp] = findActiveCell(addressBar.value);
+        let [cell,cellProp] = getCellAndCellProp(addressBar.value);
         cellProp.alignment = alignValue;        // change in Data;
         cell.style.textAlign = cellProp.alignment;      // UI change(1);
 
@@ -158,7 +161,6 @@ function addListenerToAttachCellProperties(cell) {
         cell.style.fontColor = currCellProp.fontColor;
         cell.style.backgroundColor = currCellProp.BGcolor==="#000000"?"transparent":currCellProp.BGcolor;
         cell.style.alignElement = currCellProp.alignment;
-
         // here we are making changes to props icon. like bold, italics, underline etc.
         // alignment.
         switch (currCellProp.alignment){
@@ -185,11 +187,12 @@ function addListenerToAttachCellProperties(cell) {
         underline.style.backgroundColor = currCellProp.underline? activeColorProp:inactiveColorProp;
         fontColor.value = currCellProp.fontColor;
         bgColor.value = currCellProp.BGcolor;
+        formulaBar.value = currCellProp.formula;
     })
 }
 
 // find active cell
-function findActiveCell(address){
+function getCellAndCellProp(address){
 
     // address will be in the form of row - col
     [rowId,colId] = decodeRowAndColFromAddress(address);
