@@ -208,9 +208,10 @@ function getCellAndCellProp(address){
 }
 
 function decodeRowAndColFromAddress(address){
-    // let address -> 11C
-    let rowId = Number(address.slice(0,address.length-1))-1;
-    let colId = Number(address.charCodeAt(address.length-1))-65;
+    // let address -> 11C , C11
+    let rowId = Number(address.slice(1,address.length))-1;
+    let colId = Number(address.charCodeAt(0))-65;
+    console.log("row "+rowId+" col "+colId);
     return [rowId,colId]; 
 }
 

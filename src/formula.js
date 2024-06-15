@@ -24,7 +24,17 @@ formulaBar.addEventListener("keydown",(e)=>{
 })
 
 function evaluateFormula(formula){
-    return eval(formula);
+    let encodedFormula = formula.split(" ");        // array -> [A0," ",B1," ",10];
+    for( let i = 0 ; i<encodedFormula.length ;i++){
+        let e = encodedFormula[i];
+        let asciiValue = e.charCodeAt(0);
+        if(asciiValue>=65 && asciiValue<=90){
+            let [cell,cellProp] = getCellAndCellProp(e);  
+            encodedFormula[i] = cellProp.value;
+        }
+    }
+    let decodedFormula = encodedFormula.join(" ");
+    return eval(decodedFormula);
 }
 
 function setCellUIAndCellProp(evaluatedValue,formula) {

@@ -48,7 +48,7 @@ function addListenerForAddressBar(cell,i,j){
     cell.addEventListener("click",(e)=>{
         let rowId = i+1;
         let colId = String.fromCharCode(65+j);
-        addressBar.value = `${rowId}${colId}`;
+        addressBar.value = `${colId}${rowId}`;
     })
 }
 
