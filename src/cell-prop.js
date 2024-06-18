@@ -19,6 +19,7 @@ for (let i = 0; i < rows; i++) {
       BGcolor: "#000000", // just for indication.
       value: "",
       formula: "",
+      children: [],
     };
     sheetRow.push(cellProp);
   }
@@ -196,6 +197,7 @@ function addListenerToAttachCellProperties(cell) {
     fontColor.value = currCellProp.fontColor;
     bgColor.value = currCellProp.BGcolor;
     formulaBar.value = currCellProp.formula;
+    cell.value = currCellProp.value;
   });
 }
 
