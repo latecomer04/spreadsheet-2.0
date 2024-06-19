@@ -220,6 +220,5 @@ function decodeRowAndColFromAddress(address) {
   // let address -> 11C , C11
   let rowId = Number(address.slice(1, address.length)) - 1;
   let colId = Number(address.charCodeAt(0)) - 65;
-  console.log("row " + rowId + " col " + colId);
   return [rowId, colId];
 }
