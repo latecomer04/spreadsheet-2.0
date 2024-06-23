@@ -196,6 +196,7 @@ function addListenerToAttachCellProperties(cell) {
       : inactiveColorProp;
     fontColor.value = currCellProp.fontColor;
     bgColor.value = currCellProp.BGcolor;
+    console.log("the value of formula : "+currCellProp.formula);
     formulaBar.value = currCellProp.formula;
     cell.value = currCellProp.value;
   });
