@@ -7,8 +7,9 @@ for (let i = 0; i < rows; i++) {
     cell.addEventListener("blur", (e) => {
       let currCellProp = sheetDB[i][j];
       let enteredData = cell.innerText;
-
-      if (enteredData === currCellProp.value) return;
+      if (enteredData == currCellProp.value ){
+        return ;
+      }
       //update the new value.
       currCellProp.value = enteredData;
 
@@ -33,6 +34,19 @@ formulaBar.addEventListener("keydown", (e) => {
       removeChildFromParent(cellProp.formula);
     }
 
+    // add the children into the parent cells of graphComponentMatrix 
+    addChildToGraphComponent(inputFormula,address);   // do this before evaluation else will be in stackoverflow condition if the cycle exists . 
+
+    // check the formula is cyclic or not. If not cyclic then only evaluate.
+    let isCyclic = isGraphCyclic(graphComponentMatrix);
+    if(isCyclic === true){
+      alert("The formula you have entered is Cyclic");
+      // let's say your formula is cyclic .But you have added those children to your parent in graphComponentMatrix . So you need to remove them as well.
+      removeChildFromGraphComponent(inputFormula,address);
+      return;
+    }
+
+
     let evaluatedValue = evaluateFormula(inputFormula);
     setCellUIAndCellProp(evaluatedValue, inputFormula, address);
     // now add this cell address to the parent cellProp as it is depending upon some parent cell
@@ -44,6 +58,38 @@ formulaBar.addEventListener("keydown", (e) => {
   }
 });
 
+function addChildToGraphComponent(formula,childAddress){
+  let encodedFormula = formula.split(" ");
+  // child row and col.
+  let [crid,ccid] = decodeRowAndColFromAddress(childAddress);
+  for(let i = 0; i< encodedFormula.length;i++){
+    let asciiValue = encodedFormula[i].charCodeAt(0);
+    if(asciiValue>=65 && asciiValue<=90){
+      let [prid,pcid] = decodeRowAndColFromAddress(encodedFormula[i]);
+
+      // so now we have parent row and col & child col and row. 
+      // so now add child in parentcell of graphComponent . So we are storing crid and ccid in an array
+      // then pushing that array in the array of parent (graphComponentMatrix[prid][crid]).
+      // so for ex the graphComponentMatrix[0][0] (A1) will have somethign like this - [[1,2],[4,11],[2,4]..]
+      graphComponentMatrix[prid][pcid].push([crid,ccid]);
+    }
+  }
+}
+
+function removeChildFromGraphComponent(formula,childAddress){
+  let encodedFormula = formula.split(" ");
+  // child row and col.
+  let [crid,ccid] = decodeRowAndColFromAddress(childAddress);
+  for(let i = 0; i< encodedFormula.length;i++){
+    let asciiValue = encodedFormula[i].charCodeAt(0);
+    if(asciiValue>=65 && asciiValue<=90){
+      let [prid,pcid] = decodeRowAndColFromAddress(encodedFormula[i]);
+      // now we can use pop to remove the last entry from the parent. Why last, bcoz we just added those chldren into parent.
+      // so we can directly pop them.
+      graphComponentMatrix[prid][pcid].pop();
+    }
+  }
+}
 function evaluateFormula(formula) {
   let encodedFormula = formula.split(" "); // array -> [A0," ",B1," ",10];
   for (let i = 0; i < encodedFormula.length; i++) {

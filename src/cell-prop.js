@@ -196,6 +196,7 @@ function addListenerToAttachCellProperties(cell) {
       : inactiveColorProp;
     fontColor.value = currCellProp.fontColor;
     bgColor.value = currCellProp.BGcolor;
+    console.log("the value of formula : "+currCellProp.formula);
     formulaBar.value = currCellProp.formula;
     cell.value = currCellProp.value;
   });
@@ -220,6 +221,5 @@ function decodeRowAndColFromAddress(address) {
   // let address -> 11C , C11
   let rowId = Number(address.slice(1, address.length)) - 1;
   let colId = Number(address.charCodeAt(0)) - 65;
-  console.log("row " + rowId + " col " + colId);
   return [rowId, colId];
 }
