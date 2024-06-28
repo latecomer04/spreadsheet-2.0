@@ -33,11 +33,11 @@ function isGraphCyclic(graphComponentMatrix){
         for(let j=0;j<cols;j++){
             if(visited[i][j]===false){
                 let response = dfsCycleDetection(graphComponentMatrix,i,j,visited,dfsVisited);
-                if(response===true) return true;     // if response true, then cycle exists so return true.
+                if(response===true) return [i,j];     // if response true, then cycle exists so return true.
             }
         }
     }
-    return false;
+    return null;
 }
 
 // start -> visited[r][c] = true, dfsVisited[r][c] = true;

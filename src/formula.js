@@ -24,7 +24,7 @@ for (let i = 0; i < rows; i++) {
 }
 
 // get expression from formula bar. so have formula container first.
-formulaBar.addEventListener("keydown", (e) => {
+formulaBar.addEventListener("keydown", async(e) => {
   let inputFormula = formulaBar.value;
   if (e.key === "Enter" && inputFormula) {
     // we need to remove existing parent child relnship first as well . and the establish the new one.
@@ -38,9 +38,14 @@ formulaBar.addEventListener("keydown", (e) => {
     addChildToGraphComponent(inputFormula,address);   // do this before evaluation else will be in stackoverflow condition if the cycle exists . 
 
     // check the formula is cyclic or not. If not cyclic then only evaluate.
-    let isCyclic = isGraphCyclic(graphComponentMatrix);
-    if(isCyclic === true){
-      alert("The formula you have entered is Cyclic");
+    let cycleResponse = isGraphCyclic(graphComponentMatrix);
+    if(cycleResponse){
+      let response = confirm("Your formula is cyclic, Do you want to trace your path??");
+      while(response===true){
+        // keep on tracing the path, until your user is satisfied.
+        await isGraphCyclicTracePath(graphComponentMatrix,cycleResponse);
+        response = confirm("Your formula is cyclic, Do you want to trace your path??");
+      }
       // let's say your formula is cyclic .But you have added those children to your parent in graphComponentMatrix . So you need to remove them as well.
       removeChildFromGraphComponent(inputFormula,address);
       return;
