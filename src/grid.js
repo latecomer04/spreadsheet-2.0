@@ -49,9 +49,3 @@ function addListenerForAddressBar(cell, i, j) {
     addressBar.value = `${colId}${rowId}`;
   });
 }
-
-// by default click the first row and col [0,0]. So all cells have cell class.
-// document.querySelector() will give the first one that matches . that will be [0,0].
-// so use this to click that by default
-let firstCell = document.querySelector(".cell");
-firstCell.click();

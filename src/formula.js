@@ -7,8 +7,8 @@ for (let i = 0; i < rows; i++) {
     cell.addEventListener("blur", (e) => {
       let currCellProp = sheetDB[i][j];
       let enteredData = cell.innerText;
-      if (enteredData == currCellProp.value ){
-        return ;
+      if (enteredData == currCellProp.value) {
+        return;
       }
       //update the new value.
       currCellProp.value = enteredData;
@@ -24,7 +24,7 @@ for (let i = 0; i < rows; i++) {
 }
 
 // get expression from formula bar. so have formula container first.
-formulaBar.addEventListener("keydown", (e) => {
+formulaBar.addEventListener("keydown", async (e) => {
   let inputFormula = formulaBar.value;
   if (e.key === "Enter" && inputFormula) {
     // we need to remove existing parent child relnship first as well . and the establish the new one.
@@ -35,14 +35,20 @@ formulaBar.addEventListener("keydown", (e) => {
     }
 
     // add the children into the parent cells of graphComponentMatrix 
-    addChildToGraphComponent(inputFormula,address);   // do this before evaluation else will be in stackoverflow condition if the cycle exists . 
+    addChildToGraphComponent(inputFormula, address);   // do this before evaluation else will be in stackoverflow condition if the cycle exists . 
 
     // check the formula is cyclic or not. If not cyclic then only evaluate.
-    let isCyclic = isGraphCyclic(graphComponentMatrix);
-    if(isCyclic === true){
-      alert("The formula you have entered is Cyclic");
+    let cycleResponse = isGraphCyclic(graphComponentMatrix);
+    if (cycleResponse) {
+      let response = confirm("Your formula is cyclic, Do you want to trace your path??");
+      while (response === true) {
+        // keep on tracing the path, until your user is satisfied.
+        // isGraphCyclicTracePath is returning promise so that needs to be resolved using await keyword.
+        await isGraphCyclicTracePath(graphComponentMatrix, cycleResponse);
+        response = confirm("Your formula is cyclic, Do you want to trace your path??");
+      }
       // let's say your formula is cyclic .But you have added those children to your parent in graphComponentMatrix . So you need to remove them as well.
-      removeChildFromGraphComponent(inputFormula,address);
+      removeChildFromGraphComponent(inputFormula, address);
       return;
     }
 
@@ -58,32 +64,32 @@ formulaBar.addEventListener("keydown", (e) => {
   }
 });
 
-function addChildToGraphComponent(formula,childAddress){
+function addChildToGraphComponent(formula, childAddress) {
   let encodedFormula = formula.split(" ");
   // child row and col.
-  let [crid,ccid] = decodeRowAndColFromAddress(childAddress);
-  for(let i = 0; i< encodedFormula.length;i++){
+  let [crid, ccid] = decodeRowAndColFromAddress(childAddress);
+  for (let i = 0; i < encodedFormula.length; i++) {
     let asciiValue = encodedFormula[i].charCodeAt(0);
-    if(asciiValue>=65 && asciiValue<=90){
-      let [prid,pcid] = decodeRowAndColFromAddress(encodedFormula[i]);
+    if (asciiValue >= 65 && asciiValue <= 90) {
+      let [prid, pcid] = decodeRowAndColFromAddress(encodedFormula[i]);
 
       // so now we have parent row and col & child col and row. 
       // so now add child in parentcell of graphComponent . So we are storing crid and ccid in an array
       // then pushing that array in the array of parent (graphComponentMatrix[prid][crid]).
       // so for ex the graphComponentMatrix[0][0] (A1) will have somethign like this - [[1,2],[4,11],[2,4]..]
-      graphComponentMatrix[prid][pcid].push([crid,ccid]);
+      graphComponentMatrix[prid][pcid].push([crid, ccid]);
     }
   }
 }
 
-function removeChildFromGraphComponent(formula,childAddress){
+function removeChildFromGraphComponent(formula, childAddress) {
   let encodedFormula = formula.split(" ");
   // child row and col.
-  let [crid,ccid] = decodeRowAndColFromAddress(childAddress);
-  for(let i = 0; i< encodedFormula.length;i++){
+  let [crid, ccid] = decodeRowAndColFromAddress(childAddress);
+  for (let i = 0; i < encodedFormula.length; i++) {
     let asciiValue = encodedFormula[i].charCodeAt(0);
-    if(asciiValue>=65 && asciiValue<=90){
-      let [prid,pcid] = decodeRowAndColFromAddress(encodedFormula[i]);
+    if (asciiValue >= 65 && asciiValue <= 90) {
+      let [prid, pcid] = decodeRowAndColFromAddress(encodedFormula[i]);
       // now we can use pop to remove the last entry from the parent. Why last, bcoz we just added those chldren into parent.
       // so we can directly pop them.
       graphComponentMatrix[prid][pcid].pop();
