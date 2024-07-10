@@ -30,8 +30,19 @@ model to control the layout of its child elements (flex items). */
 .page-actions {
   margin: 0.5rem;
   color: #f1f2f6;
+  margin-bottom: 0;
+  width: 3.5rem;
+  display: flex;
+  justify-content: center;
+  height: 1.5rem;
+  align-items: center;
 }
 
+.selected-page-action{
+  background-color: #f1f2f6;
+  color: #218c74;
+  
+}
 .cellprop-actions-cont {
   height: 3rem;
   background-color: #ecf0f1;
@@ -98,7 +109,7 @@ model to control the layout of its child elements (flex items). */
 
 .sheet-actions-cont {
   height: 3rem;
-  background-color: gray;
+  background-color: white;
   display: flex;
   align-items: center;
   padding-left: 1rem;
@@ -110,18 +121,36 @@ model to control the layout of its child elements (flex items). */
   width: 2vw;
 }
 
+.sheet-add-icon:hover{
+  cursor: pointer;
+}
+
+.sheet-folder:hover{
+  cursor: pointer;
+}
 .sheets-folder-cont {
   display: flex;
   align-items: center;
   height: 80%;
   width: calc(100rem - 2vw);
+  overflow: auto;
 }
 
 .sheet-folder {
+  height: 80%;
   font-weight: bold;
   text-decoration: underline;
   text-decoration-thickness: 2px;
   margin-bottom: 2px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
+.sheet-content {
+  width: 5rem;
+  
 }
 
 .grid-actions-cont {

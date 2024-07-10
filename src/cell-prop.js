@@ -1,29 +1,10 @@
+let collectedSheetDB = []; // collects all sheet DB.
 let sheetDB = [];
 
-//an interesting thing -> see we have not defined rows , cols var here. but we are using them. how?
-//<script src="./grid.js"></script>
-//<script src="./cell-prop.js"></script>
-// in index.html we have added our js files like this. so grid is mentioned before cell-prop. So all the data of grid will be accessible in cell-prop
-
-for (let i = 0; i < rows; i++) {
-  let sheetRow = [];
-  for (let j = 0; j < cols; j++) {
-    let cellProp = {
-      bold: false,
-      italic: false,
-      underline: false,
-      alignment: "left",
-      fontFamily: "monospace",
-      fontSize: "14",
-      fontColor: "#000000",
-      BGcolor: "#000000", // just for indication.
-      value: "",
-      formula: "",
-      children: [],
-    };
-    sheetRow.push(cellProp);
-  }
-  sheetDB.push(sheetRow);
+// when app loads for the first time. first sheet should add by itself.
+{
+  let addSheetBtn = document.querySelector(".sheet-add-icon");
+  addSheetBtn.click();
 }
 
 //find all selectors;
@@ -122,7 +103,7 @@ alignment.forEach((alignElement) => {
     cell.style.textAlign = cellProp.alignment; // UI change(1);
 
     switch (
-      alignValue // UI change(2) for changing background color of active prop.
+    alignValue // UI change(2) for changing background color of active prop.
     ) {
       case "left":
         leftAlign.style.backgroundColor = activeColorProp;
@@ -153,7 +134,6 @@ function addListenerToAttachCellProperties(cell) {
   cell.addEventListener("click", () => {
     let [rid, cid] = decodeRowAndColFromAddress(addressBar.value);
     currCellProp = sheetDB[rid][cid];
-
     // so we have now the prop for the currCell in currCellProp , now make changes for the cell.
     cell.style.fontWeight = currCellProp.bold ? "bold" : "normal";
     cell.style.fontStyle = currCellProp.italic ? "italic" : "normal";
@@ -164,6 +144,7 @@ function addListenerToAttachCellProperties(cell) {
     cell.style.backgroundColor =
       currCellProp.BGcolor === "#000000" ? "transparent" : currCellProp.BGcolor;
     cell.style.alignElement = currCellProp.alignment;
+
     // here we are making changes to props icon. like bold, italics, underline etc.
     // alignment.
     switch (currCellProp.alignment) {
@@ -171,16 +152,19 @@ function addListenerToAttachCellProperties(cell) {
         leftAlign.style.backgroundColor = activeColorProp;
         centreAlign.style.backgroundColor = inactiveColorProp;
         rightAlign.style.backgroundColor = inactiveColorProp;
+        leftAlign.click();
         break;
       case "center":
         leftAlign.style.backgroundColor = inactiveColorProp;
         centreAlign.style.backgroundColor = activeColorProp;
         rightAlign.style.backgroundColor = inactiveColorProp;
+        centreAlign.click();
         break;
       case "right":
         leftAlign.style.backgroundColor = inactiveColorProp;
         centreAlign.style.backgroundColor = inactiveColorProp;
         rightAlign.style.backgroundColor = activeColorProp;
+        rightAlign.click();
         break;
     }
     fontFamily.value = currCellProp.fontFamily; // fontFamily
@@ -196,9 +180,8 @@ function addListenerToAttachCellProperties(cell) {
       : inactiveColorProp;
     fontColor.value = currCellProp.fontColor;
     bgColor.value = currCellProp.BGcolor;
-    console.log("the value of formula : "+currCellProp.formula);
     formulaBar.value = currCellProp.formula;
-    cell.value = currCellProp.value;
+    cell.innerText = currCellProp.value;
   });
 }
 
